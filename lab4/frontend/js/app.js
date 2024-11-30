@@ -1,25 +1,9 @@
-import {getAllChainsaws, postChainsaw, deleteChainsaw, updateChainsaw} from "./api.js";
+import {getAllCars, postCar, deleteCar, updateCar} from "./api.js";
 
-let chainsaws = [];
-// {   name: 'DSG-62H',
-//     watts: 2900,
-//     rotationsPerMinute: 3200,
-//     imgUrl: 'https://static.dnipro-m.ua/cache/products/5684/catalog_origin_317907.jpg',
-// },
-// {   name: 'DSG-25H',
-//     watts: 750,
-//     rotationsPerMinute: 3500,
-//     imgUrl: 'https://static.dnipro-m.ua/cache/products/9689/catalog_origin_476226.jpg',
-// },
-// {   name: 'Imperial Chainsword Mk.VI',
-//     watts: 3000,
-//     rotationsPerMinute: 7000,
-//     imgUrl: 'https://www.king-cart.com/store/oknight/IF_403515_Chainsword.jpg',
-// },
+let Cars = [];
 
-// Get HTML elements by their new IDs
 const openModalCreate = document.getElementById("open-modal-create-button");
-const createChainsawForm = document.getElementById('chainsawCreateForm'); 
+const createCarForm = document.getElementById('CarCreateForm'); 
 const closeModalButton = document.querySelector('.btn-close'); 
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
@@ -27,86 +11,79 @@ const isSortByPower = document.getElementById('sort-by-power');
 const exceptionModalElement = document.getElementById('exceptionModal');
 const exceptionMessage = document.getElementById('exceptionMessage');
 
-// Chainsaws fetching - НОВЕ
-const refetchAllChainsaws = async () => {
-    const allChainsaws = await getAllChainsaws();
+// Cars fetching - НОВЕ
+const refetchAllCars = async () => {
+    const allCars = await getAllCars();
 
-    chainsaws = allChainsaws;
+    Cars = allCars;
 
-    drawList(chainsaws)
+    drawList(Cars)
 }
 
-// Sorting chainsaws by power (watts) ГОТОВО
+// Sorting Cars by power (watts) ГОТОВО
 isSortByPower?.addEventListener('click', () => {
     if (isSortByPower.checked) {
-        const sortedChainsaws = chainsaws.slice(0).sort((a, b) => b.watts - a.watts);
-        drawList(sortedChainsaws);
+        const sortedCars = Cars.slice(0).sort((a, b) => b.Horsepower - a.Horsepower);
+        drawList(sortedCars);
     } else {
-        drawList(chainsaws);
+        drawList(Cars);
     }
 });
 
-// Exception
+
 const openExceptionModal = (message) => {
     exceptionMessage.textContent = message;
     const exceptionModal = new bootstrap.Modal(exceptionModalElement);
     exceptionModal.show();
 };
 
-// Open create chainsaw modal
 openModalCreate?.addEventListener('click', () => {
     const createModal = new bootstrap.Modal(document.getElementById('create-modal'));
     createModal.show();
 });
 
-// Close create modal 
 closeModalButton?.addEventListener('click', () => {
     const createModal = bootstrap.Modal.getInstance(document.getElementById('create-modal'));
     createModal.hide();
 });
 
 
-// Search functionality
 searchButton?.addEventListener('click', () => {
 
     const searchValue = searchInput.value;
-    const filteredChainsaws = chainsaws.filter((chainsaw) =>
-        chainsaw.name.toLowerCase().includes(searchValue.toLowerCase())
+    const filteredCars = Cars.filter((Car) =>
+        Car.name.toLowerCase().includes(searchValue.toLowerCase())
     );
-    drawList(filteredChainsaws);
+    drawList(filteredCars);
 });
 
-// Creating - ЗМІНЕНО
-createChainsawForm?.addEventListener('submit', async (event) => {
+createCarForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(createChainsawForm);
-    const title = formData.get('Name');
-    const power = parseFloat(formData.get('Power'));
-    const rotationsPerMinute = parseFloat(formData.get('RPM'));
-    const imageUrl = formData.get('ImageUrl');
+    const formData = new FormData(createCarForm);
+    const title = formData.get('CarModel');
+    const power = parseFloat(formData.get('Horsepower'));
+    const rotationsPerMinute = parseFloat(formData.get('MaxSpeed'));
+    const newCar = { CarModel: title, Horsepower: power, MaxSpeed: rotationsPerMinute };
 
-    const newChainsaw = { name: title, watts: power, rotationsPerMinute: rotationsPerMinute };
-
-    if (validateInput(newChainsaw)) {
-            await postChainsaw(newChainsaw).then(refetchAllChainsaws); // Виклик postChainsaw для відправки на сервеh
-            createChainsawForm.reset();      // Скидаємо форму
+    if (validateInput(newCar)) {
+            await postCar(newCar).then(refetchAllCars); // Виклик postCar для відправки на сервеh
+            createCarForm.reset();      // Скидаємо форму
             const createModal = bootstrap.Modal.getInstance(document.getElementById('create-modal'));
             createModal.hide();
     }
 });
 
-// Validation
-const validateInput = (chainsaw) => {
-    if (!chainsaw.name) {
+const validateInput = (Car) => {
+    if (!Car.CarModel) {
         openExceptionModal("Name is required");
         return false;
     }
-    if (!chainsaw.watts || chainsaw.watts <= 0) {
+    if (!Car.Horsepower || Car.Horsepower <= 0) {
         openExceptionModal("Power (Watts) is required and must be greater than 0");
         return false;
     }
-    if (!chainsaw.rotationsPerMinute || chainsaw.rotationsPerMinute <= 0) {
+    if (!Car.MaxSpeed || Car.MaxSpeed <= 0) {
         openExceptionModal("RPM is required and must be greater than 0");
         return false;
     }
@@ -114,21 +91,20 @@ const validateInput = (chainsaw) => {
     return true;
 };
 
-// Remove chainsaw - ЗМІНЕНО
-const removeChainsaw = async (index) => {
-    const chainsawToDelete = chainsaws[index];
-    chainsaws.splice(index, 1);
-    await deleteChainsaw(chainsawToDelete.id);
-    drawList(chainsaws);
+const removeCar = async (index) => {
+    const CarToDelete = Cars[index];
+    Cars.splice(index, 1);
+    await deleteCar(CarToDelete.id);
+    drawList(Cars);
 };
 
 // Edit - ЗМІНЕНО
-const editChainsaw = async (index) => {
-    const chainsawToUpdate = chainsaws[index];
-    const form = document.getElementById('chainsawEditForm');
-    form['Name'].value = chainsawToUpdate.name;
-    form['Power'].value = chainsawToUpdate.watts;
-    form['RPM'].value = chainsawToUpdate.rotationsPerMinute;
+const editCar = async (index) => {
+    const CarToUpdate = Cars[index];
+    const form = document.getElementById('CarEditForm');
+    form['CarModel'].value = CarToUpdate.CarModel;
+    form['Horsepower'].value = CarToUpdate.Horsepower;
+    form['MaxSpeed'].value = CarToUpdate.MaxSpeed;
 
     const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
     editModal.show();
@@ -142,22 +118,21 @@ const editChainsaw = async (index) => {
         event.preventDefault();
 
         const formData = new FormData(form);
-        const updatedName = formData.get('Name');
-        const updatedPower = parseFloat(formData.get('Power'));
-        const updatedRPM = parseFloat(formData.get('RPM'));
+        const updatedName = formData.get('CarModel');
+        const updatedPower = parseFloat(formData.get('Horsepower'));
+        const updatedRPM = parseFloat(formData.get('MaxSpeed'));
         if (validateInput({
-            name: updatedName,
-            watts: updatedPower,
-            rotationsPerMinute: updatedRPM, })) {
-            chainsaws[index] = {
-                ...chainsawToUpdate,
-                name: updatedName,
-                watts: updatedPower,
-                rotationsPerMinute: updatedRPM,
+            CarModel: updatedName,
+            Horsepower: updatedPower,
+            MaxSpeed: updatedRPM, })) {
+            Cars[index] = {
+                ...CarToUpdate,
+                CarModel: updatedName,
+                Horsepower: updatedPower,
+                MaxSpeed: updatedRPM,
             };
 
-            // Відправка PUT запиту на сервер
-            await updateChainsaw(chainsaws[index].id, chainsaws[index]).then(refetchAllChainsaws);
+            await updateCar(Cars[index].id, Cars[index]).then(refetchAllCars);
 
             editModal.hide();
         }
@@ -165,21 +140,21 @@ const editChainsaw = async (index) => {
 };
 
 // Відобрадення
-const drawList = (chainsawList) => {
-    const totalChainsaws = document.getElementById('total-chainsaws');
-    totalChainsaws.textContent = chainsawList.length.toString();
+const drawList = (CarList) => {
+    const totalCars = document.getElementById('total-Cars');
+    totalCars.textContent = CarList.length.toString();
     
     const mainPageShow = document.getElementById("main-page");
     mainPageShow.innerHTML = '';
-    chainsawList.forEach((el, idx) => {
+    CarList.forEach((el, idx) => {
         const card = document.createElement('div');
         card.className = "col-md-4";
         card.innerHTML = `
             <div class="card bg-secondary text-white shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">${el.name}</h5>
-                    <p class="card-text">Power: ${el.watts} Watts</p>
-                    <p class="card-text">RPM: ${el.rotationsPerMinute}</p>
+                    <h5 class="card-title">${el.CarModel}</h5>
+                    <p class="card-text">Horsepower: ${el.Horsepower} Watts</p>
+                    <p class="card-text">Max Speed: ${el.MaxSpeed}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <button class="btn btn-warning" id="edit-${idx}">Edit</button>
@@ -190,12 +165,12 @@ const drawList = (chainsawList) => {
 
         mainPageShow.appendChild(card);
 
-        document.getElementById(`edit-${idx}`).addEventListener('click', () => editChainsaw(idx));
-        document.getElementById(`remove-${idx}`).addEventListener('click', () => removeChainsaw(idx));
+        document.getElementById(`edit-${idx}`).addEventListener('click', () => editCar(idx));
+        document.getElementById(`remove-${idx}`).addEventListener('click', () => removeCar(idx));
     });
 };
 
-drawList(chainsaws);
+drawList(Cars);
 
-getAllChainsaws().then(console.log)
-refetchAllChainsaws();
+getAllCars().then(console.log)
+refetchAllCars();

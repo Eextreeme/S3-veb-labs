@@ -22,19 +22,19 @@ const baseRequest =  async ({urlPath = "", method = 'GET', body = null}) => {
 }
 
 //GET
-export const getAllChainsaws = async () => {
+export const getAllCars = async () => {
     const rawRes = await baseRequest({method: 'GET', mode: 'cors'});
     return rawRes.json();
 }
 
 //POST
-export const postChainsaw = (body) =>
+export const postCar = (body) =>
     baseRequest({method: 'POST', body, mode: 'cors'});
 
 //PUT
-export const updateChainsaw = (id, body) =>
+export const updateCar = (id, body) =>
     baseRequest({ urlPath: `/${id}`, method: "PUT", body, mode : 'cors' });
 
 //DELETE
-export const deleteChainsaw = (id) =>
+export const deleteCar = (id) =>
     baseRequest({ urlPath: `/${id}`, method: "DELETE"});
