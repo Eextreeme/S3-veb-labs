@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+    <body>
+        <header>
+            <div class="container">
+                <div class="border">
+                    <h1>Editing an existing Car</h1>
+                </div>
+                <a href="index.html" class="exit button">Back to Shop</a>
+            </div>
+        </header>
+
+        <main class="container">
+            <form id="add-product-form">
+                <div class="field">
+                    <label for="description" class="naming">Car Name</label>
+                    <input type="text" class="form-control" id="Car-naming-id" required />
+                </div>
+                <div class="field">
+                    <label for="price" class="naming">Horsepower</label>
+                    <input type="number" step="0.01" class="form-control" id="Car-HP-id" required />
+                </div>
+                <div class="field">
+                    <label for="price" class="naming">Max speed</label>
+                    <input type="number" step="0.01" class="form-control" id="Car-Max-speed-id" required />
+                </div>
+                <button type="submit" class="submit" id="add-product-form-button">Confirm</button>
+            </form>
+        </main>
+    </body>
+
+    <script src="./edit.js"></script>
+</html>

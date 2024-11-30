@@ -1,0 +1,58 @@
+body {
+    background-repeat: repeat;
+}
+
+.container {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.column{
+    flex-direction: column;
+}
+.center{
+    margin: 0 auto;
+}
+.cards {
+    border: 2px solid #000;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.hero {
+    width: 50%;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+.car-showroom-container{
+    align-content: space-between;
+}
+.hero_left_buttons{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10%;
+}
+.button{
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+}
+.search{
+    width: 300px;
+    height: 30px;
+}

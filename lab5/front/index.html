@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMETHING</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="container space-around some_components">
+        <div>
+            <p style = "font-size: 1.15em;">Cool Cars</p>
+            
+        </div>
+        <button class="button"> <a href = 'add.html'>Add element</a></button>
+
+        <script>
+          
+        </script>
+        <div>
+            <input id="search" type="text" class="search" placeholder="Search...">
+            <button class="button" onclick="search()" >Search</button>
+            <button class="button" onclick="clearSearch()">Clear</button>
+        </div>
+    </header>
+    <section class="container space-between">
+        <div class=" space-between hero" id="">
+            <div id="showroom-of-car" class="container flex-wrap space-between  car-showroom-container">
+                <div class="cards" id="showroom-inside-1">
+                    <p class=text-car>ONLY BMW!!!</p>
+                    <ul>
+                        <li class="">hourse_power: 30000 hourse_power</li>
+                        <li class="">max-speed: 3000 hm/h </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="column center hero_left_buttons">
+            <button class="button" id="BMWSeach">THE BEST CARS ONLY</button>
+            <select id="sortOrder" onchange="sort()" title="Horsepower" class="button">
+                <option>---</option>
+                <option value="asc">За зростанням</option>
+                <option value="desc">За спаданням</option>
+            </select>
+            <button class="button" onclick="avgHoursePower()">HP</button>
+
+        </div>
+        <button onclick="toggleFabia()">FABIAAA</button>
+    </section>
+</body>
+<script type="module" src="js.js"></script>
+
+</html>
