@@ -1,0 +1,140 @@
+.header {
+    margin: 0 auto;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.header__nav {
+    display: flex;
+    gap: 30px;
+    list-style-type: none;
+}
+
+.header__ul{
+    display: flex;
+}
+
+.header__nav-item {
+    margin-right: 0;
+}
+
+.header__contact {
+    border-radius: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    color: #606B74;
+    background-color: #fff;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.header__menu {
+    
+    display: none;
+    cursor: pointer;
+
+}
+.sign_buttons_inside{
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .header__menu {
+        display: block;
+    }
+
+    .header__nav {
+        flex-direction: column;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        right: 0;
+        top: -100%;
+        border-radius: 50px 0px 0px;
+        transition: all 1s;
+        background-color: #FFFE;
+    }
+
+    .burger-page__is-active {
+
+        top: 0 !important;
+        padding-top: 5rem;
+        bottom: 0;
+    }
+
+    .sign_buttons_inside {
+        display: flex;
+        text-align: center;
+    }
+    .sign_buttons {
+        display: none;
+    }
+    
+
+
+}
+
+.menu-toggle {
+    position: relative;
+    display: block;
+    width: 30px;
+    height: 26px;
+    background: transparent;
+    border-top: 4px solid;
+    border-bottom: 4px solid;
+    color: #000;
+    font-size: 0;
+    transition: all 0.25s ease-in-out;
+}
+
+.menu-toggle:before,
+.menu-toggle:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease-in-out;
+}
+
+button:hover {
+    color: 000;
+}
+
+button.is-active {
+    border-color: transparent;
+}
+
+button.is-active:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+button.is-active:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+.logo_container{
+    animation: fade-from-bottom 2s linear ;
+    display: flex;
+    align-items: center;
+}
+.text_logo{
+    margin-left: 10px;
+}
+@media screen and (min-width: 2000px) {
+    
+}
+.logo__image{
+    width: 3rem;
+    height: 3rem;
+}

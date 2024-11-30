@@ -1,0 +1,22 @@
+@keyframes fade-from-bottom {
+    from {
+        opacity: 0;
+        transform: translatex(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes image--animation {
+    from {
+        opacity: 0;
+        transform: translatex(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
